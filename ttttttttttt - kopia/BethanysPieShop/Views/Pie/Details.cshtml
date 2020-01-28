@@ -1,0 +1,87 @@
+﻿@model Pie
+@using Microsoft.AspNetCore.Identity
+
+<h2>@Model.Name</h2>
+
+<div class="thumbnail">
+    <img alt="@Model.Name" src="@Model.ImageUrl">
+    <div class="caption-full">
+        <h3 class="pull-right">@Model.Price</h3>
+        <h3>
+            <a href="#">@Model.Name</a>
+        </h3>
+        <h4>@Model.ShortDescription</h4>
+        <p>@Model.LongDescription</p>
+        <div class="addToCart">
+            <p class="button">
+                <a class="btn btn-primary" asp-controller="ShoppingCart" asp-action="AddToShoppingCart"
+                   asp-route-pieId="@Model.PieId">Add to cart</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="pull-right">
+    <!--
+        framräknat betygsgenomsnitt visas
+        ev kommentarer visas
+    -->
+    <h2>That's what our customers think</h2>
+    <h3>Average rating: @Model.GradeAverage</h3>
+
+
+
+
+
+    <!--
+        inloggade användare kan lämna kommentar
+    -->
+
+    <form asp-action="CommentaryD" method="post" class="form-horizontal" role="form">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <h3>Reviews</h3>
+
+        <!-- möjlighet att lämna egen kommentar                  -->
+        <div class="form-group">
+            <div class="col-md-5">
+                <input name="Text" class="form-control" />
+            </div>
+        </div>
+
+        <!-- submit av lämnad kommentar                               -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+
+                <input type="submit" name="Text"
+                       asp-controller="Commentary" asp-action="CommentaryD"
+                       asp-route-id="@Model.ProductDetail"
+                       asp-route-text="Text"
+                       class="btn btn-primary" value="comments" />
+            </div>
+        </div>
+
+        <!--  lämna betyg 1-5                              -->
+        <div class="form-group">
+            <div class="col-md-5">
+                <input name="Grade" class="form-control" />
+            </div>
+        </div>
+
+        <!-- betyg-siffra                               -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+
+                <input type="submit" name="Grade"
+                       asp-controller="Commentary" asp-action="CommentaryD"
+                       asp-route-id="@Model.ProductDetail"
+                       asp-route-text="Grade"
+                       class="btn btn-primary" value="Add rating" />
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <p>
+        <a asp-controller="Commentary" asp-action="CommentaryD" asp-route-pieId="@Model.PieId">add your own review</a>
+    </p>
+</div>
